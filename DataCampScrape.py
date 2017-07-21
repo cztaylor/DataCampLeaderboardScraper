@@ -151,6 +151,8 @@ topicXPNew.to_excel(writer, "Topics", index=False, header = False, startrow = wr
 # save file  
 writer.save()
 
+driver.quit()
+
 
 
 
