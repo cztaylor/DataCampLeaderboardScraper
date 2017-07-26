@@ -42,17 +42,16 @@ for userName in users:
     
     
     # find the number of exercises aced and append to list
-    stats = soup.find("div", { "class" : "stats" })
-    exercisesAced = int(stats.contents[5].b.text)
+    exercisesAced = int(soup.find_all("strong", { "class" : "stats-block__number" })[-1].text)
     exercisesAced_list.append(exercisesAced)
     
     # find each users XP for each topic and add the topicXP_dict
-    userTopics = soup.find("h4", text = re.compile(r's Topics')).next_sibling.next_sibling.next_sibling.next_sibling
+    userTopics = soup.find_all("div", {"class" : "topic-block__content"})
     userTopics_Names = []
     userTopics_XP = []
     for topic in userTopics:
         if not topic.find("h5") == -1:
-            topicName = topic.find("h5").contents[0]
+            topicName = topic.find("h4").contents[0]
             topicXP = int(re.match(r'[0-9]*', topic.find("p").contents[0]).group())
             userTopics_Names.append(topicName)
             userTopics_XP.append(topicXP)       
