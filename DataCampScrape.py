@@ -58,7 +58,7 @@ for userName in users:
     topicXP_dict[userName] = [userTopics_Names,userTopics_XP]
     
     
-    # find all tracks the user has completed and add them the the tracks dictionary
+    # find all tracks the user has completed and add them the the tracks dictionaryexer
     userTracks = [c.contents[0] for c in soup.find_all("h4", {"class" : "track-block__title"})]
     tracksCompleted_dict[userName] = userTracks
     
@@ -73,7 +73,7 @@ for userName in users:
 exercises_df = pd.DataFrame({'UserName':users,'ExercisesAced':exercisesAced_list})
 
 # Use existingExercises and exercises_df to find the new Exercises Aced
-exerciseSum = existingExercises.groupby(['UserName'], as_index=False)[['ExercisesAced']].sum()
+exerciseSum = existingExercises.groupby(['UserName'], as_index=False)[['ExercisesAced']].sum().fillna(value=0)
 exerciseJoin = pd.merge(exercises_df,exerciseSum,'left',on='UserName')
 exerciseJoin['ExercisesAced'] = exerciseJoin['ExercisesAced_x'] - exerciseJoin['ExercisesAced_y']
 exerciseNew = exerciseJoin[exerciseJoin['ExercisesAced'] != 0]
@@ -81,7 +81,7 @@ exerciseNew = exerciseNew[['ExercisesAced', 'UserName']]
 exerciseNew['Date'] = datetime.datetime.now().date()
 
 
-
+[]
 # Create DataFrame for Courses Completed data
 userCourses_list = []
 for k, v in coursesCompleted_dict.items():
@@ -123,7 +123,7 @@ for k, v in topicXP_dict.items():
 topicXP_df = pd.DataFrame(list(zip(userTopics_list,userTopicsNames_list,userTopicsXP_list)),columns=['UserName','TopicName','XP'])
 
 # Use existingXP and topicXP_df to find the new XP per Topic
-topicXPSum = existingXP.groupby(['UserName', 'TopicName'], as_index=False)[['XP']].sum()
+topicXPSum = existingXP.groupby(['UserName', 'TopicName'], as_index=False)[['XP']].sum().fillna(value=0)
 topicXPJoin = pd.merge(topicXP_df,topicXPSum,'left',on=['UserName','TopicName'])
 topicXPJoin['XP'] = topicXPJoin['XP_x'] - topicXPJoin['XP_y']
 topicXPNew = topicXPJoin[topicXPJoin['XP'] != 0]
