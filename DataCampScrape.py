@@ -5,19 +5,20 @@ import pandas as pd
 import datetime
 from openpyxl import load_workbook
 
+
 # webdriver is needed in order to run javascript on webpage
 driver = webdriver.Chrome('C:\ProgramData\chromedriver')
 
 
 # Create DataFrames for data previously pulled
-existingExercises = pd.read_excel('C:\\Users\\christian.taylor\\OneDrive - Decisive Data\\DataCampLeaderboard\\DataCamp.xlsx', sheetname = 'Exercises')
-existingCourses = pd.read_excel('C:\\Users\\christian.taylor\\OneDrive - Decisive Data\\DataCampLeaderboard\\DataCamp.xlsx', sheetname = 'Courses')
-existingTracks = pd.read_excel('C:\\Users\\christian.taylor\\OneDrive - Decisive Data\\DataCampLeaderboard\\DataCamp.xlsx', sheetname = 'Tracks')
-existingXP = pd.read_excel('C:\\Users\\christian.taylor\\OneDrive - Decisive Data\\DataCampLeaderboard\\DataCamp.xlsx', sheetname = 'Topics')
+existingExercises = pd.read_excel('C:\\Users\\cztaylor\\OneDrive - Decisive Data\\DataCampLeaderboard\\DataCamp.xlsx', sheetname = 'Exercises')
+existingCourses = pd.read_excel('C:\\Users\\cztaylor\\OneDrive - Decisive Data\\DataCampLeaderboard\\DataCamp.xlsx', sheetname = 'Courses')
+existingTracks = pd.read_excel('C:\\Users\\cztaylor\\OneDrive - Decisive Data\\DataCampLeaderboard\\DataCamp.xlsx', sheetname = 'Tracks')
+existingXP = pd.read_excel('C:\\Users\\cztaylor\\OneDrive - Decisive Data\\DataCampLeaderboard\\DataCamp.xlsx', sheetname = 'Topics')
 
 
 # Create a list of user names
-users = list(pd.read_csv('C:\\Users\\christian.taylor\\OneDrive - Decisive Data\\DataCampLeaderboard\\DataCampUsers.csv', header=None)[0])
+users = list(pd.read_csv('C:\\Users\\cztaylor\\OneDrive - Decisive Data\\DataCampLeaderboard\\DataCampUsers.csv', header=None)[0])
 
 
 # initialize lists & dictionaries
@@ -42,7 +43,7 @@ for userName in users:
     
     
     # find the number of exercises aced and append to list
-    exercisesAced = int(soup.find_all("strong", { "class" : "stats-block__number" })[-1].text)
+    exercisesAced = int(soup.find_all("strong", { "class" : "stats-block__number" })[-1].text.replace(',', ''))
     exercisesAced_list.append(exercisesAced)
     
     # find each users XP for each topic and add the topicXP_dict
@@ -134,8 +135,8 @@ topicXPNew['Date'] = datetime.datetime.now().date()
 
 
 # load excel workbook
-book = load_workbook('C:\\Users\\christian.taylor\\OneDrive - Decisive Data\\DataCampLeaderboard\DataCamp.xlsx')
-writer = pd.ExcelWriter('C:\\Users\\christian.taylor\\OneDrive - Decisive Data\\DataCampLeaderboard\DataCamp.xlsx', engine='openpyxl')
+book = load_workbook('C:\\Users\\cztaylor\\OneDrive - Decisive Data\\DataCampLeaderboard\DataCamp.xlsx')
+writer = pd.ExcelWriter('C:\\Users\\cztaylor\\OneDrive - Decisive Data\\DataCampLeaderboard\DataCamp.xlsx', engine='openpyxl')
 writer.book = book
 writer.sheets = dict((ws.title, ws) for ws in book.worksheets)
 
